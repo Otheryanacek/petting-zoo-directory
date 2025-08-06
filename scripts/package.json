@@ -1,0 +1,10 @@
+{
+  "type": "module",
+  "dependencies": {
+    "@sanity/client": "^6.4.12",
+    "dotenv": "^16.3.1"
+  },
+  "optionalDependencies": {
+    "sharp": "^0.32.6"
+  }
+}
