@@ -183,6 +183,7 @@
 
 
 
+
   - Set up Vercel project with automatic Git deployments
   - Configure environment variables for production
   - Set up custom domain with SSL certificate
