@@ -2,7 +2,10 @@ import { sanityClient } from "../../sanity"
 import { isMultiple } from "../../utils"
 import Image from "../../components/Image"
 import Review from "../../components/Review"
+import ReviewSection from "../../components/ReviewSection"
 import Map from "../../components/Map"
+import AnimalSection from "../../components/AnimalSection"
+import AmenitiesSection from "../../components/AmenitiesSection"
 import Link from "next/link"
 import Head from "next/head"
 
@@ -22,6 +25,8 @@ const PettingZoo = ({
   phone,
   website,
   operatingHours,
+  animals,
+  amenities,
 }) => {
   const reviewAmount = reviews?.length || 0
 
@@ -121,11 +126,19 @@ const PettingZoo = ({
 
       <hr />
 
-      <h2>
-        {reviewAmount} review{isMultiple(reviewAmount)}
-      </h2>
-      {reviewAmount > 0 &&
-        reviews.map((review) => <Review key={review._key} review={review} />)}
+      <AnimalSection animals={animals} title="Meet Our Animals" />
+
+      <hr />
+
+      <AmenitiesSection amenities={amenities} title="Facilities & Amenities" />
+
+      <hr />
+
+      <ReviewSection 
+        reviews={reviews} 
+        title={`Visitor Reviews (${reviewAmount})`}
+        allowSorting={true}
+      />
 
       <hr />
 
@@ -157,6 +170,26 @@ export const getServerSideProps = async (pageContext) => {
       name,
       slug,
       image
+    },
+    animals[]->{
+      _id,
+      name,
+      species,
+      category,
+      image,
+      description,
+      canPet,
+      canFeed,
+      ageGroup,
+      temperament
+    },
+    amenities[]->{
+      _id,
+      name,
+      description,
+      icon,
+      category,
+      isAvailable
     },
     reviews[]{
       ...,
@@ -196,6 +229,8 @@ export const getServerSideProps = async (pageContext) => {
         website: pettingZoo.website || null,
         operatingHours: pettingZoo.operatingHours || null,
         owner: pettingZoo.owner || null,
+        animals: pettingZoo.animals || [],
+        amenities: pettingZoo.amenities || [],
         reviews: pettingZoo.reviews || [],
       },
     }

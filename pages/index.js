@@ -1,7 +1,7 @@
-import { sanityClient, urlFor } from "../sanity"
-import Link from "next/link"
-import { isMultiple } from "../utils"
+import { sanityClient } from "../sanity"
 import DashboardMap from "../components/DashboardMap"
+import PettingZooCard from "../components/PettingZooCard"
+import PropertyCard from "../components/PropertyCard"
 import Head from "next/head"
 
 const Home = ({ properties }) => {
@@ -17,21 +17,12 @@ const Home = ({ properties }) => {
           <div className="feed-container">
             <h1>Petting Zoos near you</h1>
             <div className="feed">
-              {properties.map((property) => (
-                <Link href={`${property.itemType === 'pettingZoo' ? 'zoo' : 'property'}/${property.slug.current}`}>
-                  <div key={property._id} className="card">
-                    {property.mainImage && <img src={urlFor(property.mainImage)} />}
-                    {!property.mainImage && <div style={{height: '200px', backgroundColor: '#f0f0f0', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>No Image</div>}
-                    <p>
-                      {property.reviews?.length || 0} review
-                      {isMultiple(property.reviews?.length || 0)}
-                    </p>
-                    <h3>{property.title}</h3>
-                    <h3>
-                      <b>£{property.pricePerNight || 'N/A'} Admission</b>
-                    </h3>
-                  </div>
-                </Link>
+              {properties.map((item) => (
+                item.itemType === 'pettingZoo' ? (
+                  <PettingZooCard key={item._id} zoo={item} />
+                ) : (
+                  <PropertyCard key={item._id} property={item} />
+                )
               ))}
             </div>
           </div>

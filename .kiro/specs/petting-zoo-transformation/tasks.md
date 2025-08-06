@@ -66,27 +66,38 @@
   - Optimize images for web performance
   - _Requirements: 3.2_
 
-- [ ] 6. Update frontend components for petting zoo context
-- [ ] 6.1 Refactor property components to zoo components
+- [x] 6. Update frontend components for petting zoo context
+
+
+
+- [x] 6.1 Refactor property components to zoo components
+
+
   - Rename PropertyCard to PettingZooCard component
   - Update component props and data structure
   - Modify styling for zoo-specific information display
   - Write component tests for new functionality
   - _Requirements: 1.1, 1.3_
 
-- [ ] 6.2 Create animal display components
+- [x] 6.2 Create animal display components
+
+
   - Implement AnimalSection component for zoo details
   - Create AnimalCard component for individual animals
   - Add animal type filtering and categorization
   - _Requirements: 2.5_
 
-- [ ] 6.3 Implement amenities display component
+- [x] 6.3 Implement amenities display component
+
+
   - Create AmenitiesSection component with icons
   - Add responsive grid layout for amenity display
   - Implement amenity filtering functionality
   - _Requirements: 2.5, 7.1_
 
-- [ ] 6.4 Update review components for visitor context
+- [x] 6.4 Update review components for visitor context
+
+
   - Modify Review component for zoo visitor reviews
   - Add visit date display and rating visualization
   - Implement review moderation interface for admin

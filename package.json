@@ -12,7 +12,10 @@
     "migrate:rollback": "cd scripts && npm install && node rollback-migration.js --confirm",
     "migrate:images:dry-run": "cd scripts && npm install && node migrate-images.js --dry-run",
     "migrate:images:run": "cd scripts && npm install && node migrate-images.js",
-    "optimize:images": "cd scripts && npm install && node optimize-images.js"
+    "optimize:images": "cd scripts && npm install && node optimize-images.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
   },
   "dependencies": {
     "@react-google-maps/api": "^2.1.1",
@@ -28,6 +31,11 @@
     "autoprefixer": "^10.4.16",
     "postcss": "^8.4.31",
     "postcss-flexbugs-fixes": "^5.0.2",
-    "postcss-preset-env": "^9.3.0"
+    "postcss-preset-env": "^9.3.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/user-event": "^14.4.3",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0"
   }
 }
