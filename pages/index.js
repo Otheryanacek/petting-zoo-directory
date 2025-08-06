@@ -20,14 +20,15 @@ const Home = ({ properties }) => {
               {properties.map((property) => (
                 <Link href={`${property.itemType === 'pettingZoo' ? 'zoo' : 'property'}/${property.slug.current}`}>
                   <div key={property._id} className="card">
-                    <img src={urlFor(property.mainImage)} />
+                    {property.mainImage && <img src={urlFor(property.mainImage)} />}
+                    {!property.mainImage && <div style={{height: '200px', backgroundColor: '#f0f0f0', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>No Image</div>}
                     <p>
                       {property.reviews?.length || 0} review
                       {isMultiple(property.reviews?.length || 0)}
                     </p>
                     <h3>{property.title}</h3>
                     <h3>
-                      <b>£{property.pricePerNight} Admission</b>
+                      <b>£{property.pricePerNight || 'N/A'} Admission</b>
                     </h3>
                   </div>
                 </Link>
@@ -44,30 +45,39 @@ const Home = ({ properties }) => {
 }
 
 export const getServerSideProps = async () => {
-  // Fetch both properties and petting zoos
-  const propertyQuery = `*[ _type == "property"]{
-    ...,
-    reviews,
-    "itemType": "property"
-  }`
-  const pettingZooQuery = `*[ _type == "pettingZoo"]{
-    ...,
-    reviews,
-    "itemType": "pettingZoo",
-    "title": name,
-    "pricePerNight": admissionPrice.adult
-  }`
-  
-  const properties = await sanityClient.fetch(propertyQuery)
-  const pettingZoos = await sanityClient.fetch(pettingZooQuery)
-  
-  // Combine both arrays
-  const allItems = [...properties, ...pettingZoos]
+  try {
+    // Fetch both properties and petting zoos
+    const propertyQuery = `*[ _type == "property"]{
+      ...,
+      reviews,
+      "itemType": "property"
+    }`
+    const pettingZooQuery = `*[ _type == "pettingZoo"]{
+      ...,
+      reviews,
+      "itemType": "pettingZoo",
+      "title": name,
+      "pricePerNight": admissionPrice.adult
+    }`
+    
+    const properties = await sanityClient.fetch(propertyQuery)
+    const pettingZoos = await sanityClient.fetch(pettingZooQuery)
+    
+    // Combine both arrays
+    const allItems = [...properties, ...pettingZoos]
 
-  return {
-    props: {
-      properties: allItems,
-    },
+    return {
+      props: {
+        properties: allItems,
+      },
+    }
+  } catch (error) {
+    console.error('Error fetching data:', error)
+    return {
+      props: {
+        properties: [],
+      },
+    }
   }
 }
 
