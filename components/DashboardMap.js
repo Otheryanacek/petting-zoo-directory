@@ -1,11 +1,14 @@
 import React, { useState, useCallback, useMemo, useEffect } from "react"
 import { GoogleMap, useJsApiLoader, Marker, InfoWindow, MarkerClusterer } from "@react-google-maps/api"
 
+// Static libraries array to prevent reloading
+const libraries = ["places"]
+
 const DashboardMap = ({ pettingZoos = [] }) => {
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
-    libraries: ["places"],
+    libraries,
   })
 
   const [selectedZoo, setSelectedZoo] = useState(null)

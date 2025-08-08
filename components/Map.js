@@ -1,11 +1,14 @@
 import React, { useState, useCallback, useEffect } from "react"
 import { GoogleMap, useJsApiLoader, Marker, InfoWindow, DirectionsService, DirectionsRenderer } from "@react-google-maps/api"
 
+// Static libraries array to prevent reloading
+const libraries = ["places"]
+
 const Map = ({ location, zooName, address, showDirections = false }) => {
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
-    libraries: ["places"],
+    libraries,
   })
 
   const [map, setMap] = useState(null)

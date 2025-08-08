@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/router'
 
 /**
@@ -12,29 +12,37 @@ export function useUrlState(key, defaultValue, options = {}) {
   const router = useRouter()
   const { serialize = JSON.stringify, deserialize = JSON.parse, replace = false } = options
   
-  const [value, setValue] = useState(() => {
-    if (typeof window === 'undefined') return defaultValue
+  const [value, setValue] = useState(defaultValue)
+  const [isInitialized, setIsInitialized] = useState(false)
+
+  // Initialize from URL when router is ready
+  useEffect(() => {
+    if (!router.isReady || isInitialized) return
     
     const urlValue = router.query[key]
-    if (!urlValue) return defaultValue
-    
-    try {
-      return deserialize(Array.isArray(urlValue) ? urlValue[0] : urlValue)
-    } catch {
-      return defaultValue
+    if (urlValue) {
+      try {
+        const parsedValue = deserialize(Array.isArray(urlValue) ? urlValue[0] : urlValue)
+        setValue(parsedValue)
+      } catch {
+        setValue(defaultValue)
+      }
     }
-  })
+    setIsInitialized(true)
+  }, [router.isReady, router.query, key, defaultValue, deserialize, isInitialized])
 
-  // Update URL when value changes
-  useEffect(() => {
-    if (typeof window === 'undefined') return
-
+  // Custom setValue that updates URL
+  const setValueAndUrl = useCallback((newValue) => {
+    setValue(newValue)
+    
+    if (!router.isReady) return
+    
     const currentQuery = { ...router.query }
     
-    if (value === defaultValue || value === '' || (Array.isArray(value) && value.length === 0)) {
+    if (newValue === defaultValue || newValue === '' || (Array.isArray(newValue) && newValue.length === 0)) {
       delete currentQuery[key]
     } else {
-      currentQuery[key] = serialize(value)
+      currentQuery[key] = serialize(newValue)
     }
 
     const method = replace ? 'replace' : 'push'
@@ -42,26 +50,9 @@ export function useUrlState(key, defaultValue, options = {}) {
       pathname: router.pathname,
       query: currentQuery
     }, undefined, { shallow: true })
-  }, [value, key, defaultValue, serialize, replace, router])
+  }, [router, key, defaultValue, serialize, replace])
 
-  // Update state when URL changes
-  useEffect(() => {
-    const urlValue = router.query[key]
-    
-    if (!urlValue) {
-      setValue(defaultValue)
-      return
-    }
-
-    try {
-      const parsedValue = deserialize(Array.isArray(urlValue) ? urlValue[0] : urlValue)
-      setValue(parsedValue)
-    } catch {
-      setValue(defaultValue)
-    }
-  }, [router.query[key], key, defaultValue, deserialize])
-
-  return [value, setValue]
+  return [value, setValueAndUrl]
 }
 
 /**
@@ -81,22 +72,26 @@ export function useSearchState(defaultValue = '') {
 export function useFiltersState(defaultValue = {}) {
   return useUrlState('filters', defaultValue, {
     serialize: (filters) => {
-      // Only serialize non-default values
-      const nonDefaultFilters = {}
-      Object.entries(filters).forEach(([key, value]) => {
-        if (Array.isArray(value) && value.length > 0) {
-          nonDefaultFilters[key] = value
-        } else if (!Array.isArray(value) && value !== 'all') {
-          nonDefaultFilters[key] = value
-        }
-      })
-      
-      return Object.keys(nonDefaultFilters).length > 0 
-        ? encodeURIComponent(JSON.stringify(nonDefaultFilters))
-        : ''
+      try {
+        // Only serialize non-default values
+        const nonDefaultFilters = {}
+        Object.entries(filters).forEach(([key, value]) => {
+          if (Array.isArray(value) && value.length > 0) {
+            nonDefaultFilters[key] = value
+          } else if (!Array.isArray(value) && value !== 'all') {
+            nonDefaultFilters[key] = value
+          }
+        })
+        
+        return Object.keys(nonDefaultFilters).length > 0 
+          ? encodeURIComponent(JSON.stringify(nonDefaultFilters))
+          : ''
+      } catch {
+        return ''
+      }
     },
     deserialize: (value) => {
-      if (!value) return defaultValue
+      if (!value || value === '') return defaultValue
       
       try {
         const parsed = JSON.parse(decodeURIComponent(value))
