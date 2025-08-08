@@ -133,14 +133,23 @@
   - Add URL state management for shareable filtered views
   - _Requirements: 7.2, 7.4_
 
-- [ ] 8. Update map integration for petting zoo locations
-- [ ] 8.1 Modify map components for zoo markers
+- [x] 8. Update map integration for petting zoo locations
+
+
+
+
+
+- [x] 8.1 Modify map components for zoo markers
+
+
   - Update DashboardMap component for zoo locations
   - Change marker icons and info windows for zoo context
   - Add clustering for dense zoo areas
   - _Requirements: 1.2, 2.4_
 
-- [ ] 8.2 Enhance individual zoo map display
+- [x] 8.2 Enhance individual zoo map display
+
+
   - Update Map component for single zoo location
   - Add directions integration with Google Maps
   - Implement mobile-friendly map interactions
