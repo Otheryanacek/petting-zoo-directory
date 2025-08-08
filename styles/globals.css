@@ -227,46 +227,48 @@ body {
   color: #1565c0;
 }
 
-/* Animal Components */
+/* Animal Components - Mobile First */
 .animal-section {
-  margin: 30px 0;
+  margin: 20px 0;
 }
 
 .section-header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 15px;
 }
 
 .section-title {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 600;
   color: #333;
   margin: 0;
 }
 
 .animal-count {
-  font-size: 14px;
+  font-size: 13px;
   color: #666;
   background-color: #f5f5f5;
-  padding: 4px 12px;
+  padding: 4px 10px;
   border-radius: 12px;
+  align-self: flex-start;
 }
 
 .animal-filters {
   display: flex;
-  gap: 20px;
-  margin-bottom: 20px;
-  padding: 15px;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 15px;
+  padding: 12px;
   background-color: #f9f9f9;
   border-radius: 8px;
 }
 
 .filter-group {
   display: flex;
-  align-items: center;
-  gap: 8px;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .filter-label {
@@ -276,12 +278,14 @@ body {
 }
 
 .filter-select {
-  padding: 6px 12px;
+  padding: 10px 12px;
   border: 1px solid #ddd;
   border-radius: 6px;
-  font-size: 14px;
+  font-size: 16px; /* Prevent zoom on iOS */
   background-color: white;
   cursor: pointer;
+  touch-action: manipulation;
+  min-height: 44px;
 }
 
 .filter-select:focus {
@@ -291,8 +295,8 @@ body {
 
 .animals-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 20px;
+  grid-template-columns: 1fr;
+  gap: 15px;
 }
 
 .animal-card {
@@ -301,16 +305,18 @@ body {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  touch-action: manipulation;
 }
 
-.animal-card:hover {
+.animal-card:hover,
+.animal-card:focus {
   transform: translateY(-2px);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
 }
 
 .animal-image {
   width: 100%;
-  height: 150px;
+  height: 140px;
   position: relative;
   overflow: hidden;
 }
@@ -328,11 +334,11 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 32px;
+  font-size: 28px;
 }
 
 .animal-info {
-  padding: 16px;
+  padding: 12px;
 }
 
 .animal-header {
@@ -340,24 +346,24 @@ body {
 }
 
 .animal-name {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
   color: #333;
   margin: 0 0 4px 0;
 }
 
 .animal-species {
-  font-size: 14px;
+  font-size: 13px;
   color: #666;
   font-style: italic;
 }
 
 .animal-category {
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .category-badge {
-  font-size: 12px;
+  font-size: 11px;
   background-color: #e8f5e8;
   color: #2e7d32;
   padding: 4px 8px;
@@ -367,13 +373,13 @@ body {
 
 .animal-interactions {
   display: flex;
-  gap: 8px;
-  margin-bottom: 12px;
+  gap: 6px;
+  margin-bottom: 10px;
   flex-wrap: wrap;
 }
 
 .interaction-badge {
-  font-size: 12px;
+  font-size: 11px;
   padding: 4px 8px;
   border-radius: 12px;
   display: flex;
@@ -392,13 +398,13 @@ body {
 }
 
 .interaction-icon {
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .animal-temperament,
 .animal-age {
-  font-size: 13px;
-  margin-bottom: 6px;
+  font-size: 12px;
+  margin-bottom: 4px;
 }
 
 .temperament-label,
@@ -414,16 +420,16 @@ body {
 }
 
 .animal-description {
-  font-size: 13px;
+  font-size: 12px;
   color: #666;
   line-height: 1.4;
-  margin: 8px 0 0 0;
+  margin: 6px 0 0 0;
 }
 
 .no-animals,
 .no-results {
   text-align: center;
-  padding: 40px 20px;
+  padding: 30px 15px;
   color: #666;
 }
 
@@ -431,62 +437,187 @@ body {
   background-color: #4caf50;
   color: white;
   border: none;
-  padding: 8px 16px;
+  padding: 10px 16px;
   border-radius: 6px;
   cursor: pointer;
   font-size: 14px;
   margin-top: 10px;
+  min-height: 44px;
+  touch-action: manipulation;
 }
 
 .reset-filters-btn:hover {
   background-color: #45a049;
 }
 
-/* Amenity Components */
+/* Tablet styles for animals */
+@media (min-width: 768px) {
+  .animal-section {
+    margin: 25px 0;
+  }
+  
+  .section-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .section-title {
+    font-size: 22px;
+  }
+  
+  .animal-count {
+    font-size: 14px;
+    padding: 4px 12px;
+  }
+  
+  .animal-filters {
+    flex-direction: row;
+    gap: 15px;
+    padding: 15px;
+    margin-bottom: 20px;
+  }
+  
+  .filter-group {
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .animals-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+  }
+  
+  .animal-image {
+    height: 150px;
+  }
+  
+  .animal-info {
+    padding: 14px;
+  }
+  
+  .animal-name {
+    font-size: 17px;
+  }
+  
+  .animal-species {
+    font-size: 14px;
+  }
+  
+  .no-animals,
+  .no-results {
+    padding: 40px 20px;
+  }
+}
+
+/* Desktop styles for animals */
+@media (min-width: 1024px) {
+  .animal-section {
+    margin: 30px 0;
+  }
+  
+  .section-title {
+    font-size: 24px;
+  }
+  
+  .animal-filters {
+    gap: 20px;
+  }
+  
+  .animals-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  
+  .animal-image {
+    height: 150px;
+  }
+  
+  .animal-info {
+    padding: 16px;
+  }
+  
+  .animal-name {
+    font-size: 18px;
+  }
+  
+  .animal-placeholder {
+    font-size: 32px;
+  }
+  
+  .category-badge {
+    font-size: 12px;
+  }
+  
+  .interaction-badge {
+    font-size: 12px;
+  }
+  
+  .interaction-icon {
+    font-size: 14px;
+  }
+  
+  .animal-temperament,
+  .animal-age {
+    font-size: 13px;
+    margin-bottom: 6px;
+  }
+  
+  .animal-description {
+    font-size: 13px;
+    margin: 8px 0 0 0;
+  }
+}
+
+/* Amenity Components - Mobile First */
 .amenities-section {
-  margin: 30px 0;
+  margin: 20px 0;
 }
 
 .amenities-grouped {
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 20px;
 }
 
 .amenity-category-group {
   border: 1px solid #e0e0e0;
   border-radius: 12px;
-  padding: 20px;
+  padding: 15px;
   background-color: #fafafa;
 }
 
 .category-title {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
   color: #333;
-  margin: 0 0 15px 0;
-  padding-bottom: 8px;
+  margin: 0 0 12px 0;
+  padding-bottom: 6px;
   border-bottom: 2px solid #e0e0e0;
 }
 
 .amenities-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 16px;
+  grid-template-columns: 1fr;
+  gap: 12px;
 }
 
 .amenity-card {
   background: white;
   border-radius: 8px;
-  padding: 16px;
+  padding: 12px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   display: flex;
   align-items: flex-start;
-  gap: 12px;
+  gap: 10px;
+  touch-action: manipulation;
 }
 
-.amenity-card:hover {
+.amenity-card:hover,
+.amenity-card:focus {
   transform: translateY(-1px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
@@ -498,8 +629,8 @@ body {
 
 .amenity-icon {
   flex-shrink: 0;
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -508,12 +639,12 @@ body {
 }
 
 .icon-emoji {
-  font-size: 20px;
+  font-size: 16px;
 }
 
 .icon-image {
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
   object-fit: contain;
 }
 
@@ -523,31 +654,31 @@ body {
 }
 
 .amenity-name {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
   color: #333;
   margin: 0 0 4px 0;
 }
 
 .amenity-category {
-  font-size: 12px;
+  font-size: 11px;
   color: #666;
   background-color: #e8f4f8;
   padding: 2px 6px;
   border-radius: 10px;
   display: inline-block;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .amenity-description {
-  font-size: 13px;
+  font-size: 12px;
   color: #666;
   line-height: 1.4;
   margin: 0;
 }
 
 .unavailable-badge {
-  font-size: 11px;
+  font-size: 10px;
   color: #d32f2f;
   background-color: #ffebee;
   padding: 2px 6px;
@@ -556,59 +687,136 @@ body {
   margin-top: 4px;
 }
 
-.filter-checkbox {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 14px;
-  color: #333;
-  cursor: pointer;
-}
-
-.filter-checkbox input[type="checkbox"] {
-  margin: 0;
-}
-
 .no-amenities {
   text-align: center;
-  padding: 40px 20px;
+  padding: 30px 15px;
   color: #666;
 }
 
-/* Responsive design for amenities */
-@media (max-width: 768px) {
-  .amenities-grid {
-    grid-template-columns: 1fr;
+/* Tablet styles for amenities */
+@media (min-width: 768px) {
+  .amenities-section {
+    margin: 25px 0;
   }
   
-  .amenity-filters {
-    flex-direction: column;
-    gap: 10px;
+  .amenities-grouped {
+    gap: 25px;
+  }
+  
+  .amenity-category-group {
+    padding: 18px;
+  }
+  
+  .category-title {
+    font-size: 17px;
+    margin: 0 0 14px 0;
+    padding-bottom: 7px;
+  }
+  
+  .amenities-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
   }
   
   .amenity-card {
-    padding: 12px;
+    padding: 14px;
+    gap: 11px;
   }
   
   .amenity-icon {
-    width: 32px;
-    height: 32px;
+    width: 36px;
+    height: 36px;
   }
   
   .icon-emoji {
-    font-size: 16px;
+    font-size: 18px;
+  }
+  
+  .icon-image {
+    width: 22px;
+    height: 22px;
+  }
+  
+  .amenity-name {
+    font-size: 15px;
+  }
+  
+  .amenity-description {
+    font-size: 12px;
+  }
+  
+  .no-amenities {
+    padding: 35px 18px;
   }
 }
 
-/* Review Components */
+/* Desktop styles for amenities */
+@media (min-width: 1024px) {
+  .amenities-section {
+    margin: 30px 0;
+  }
+  
+  .amenities-grouped {
+    gap: 30px;
+  }
+  
+  .amenity-category-group {
+    padding: 20px;
+  }
+  
+  .category-title {
+    font-size: 18px;
+    margin: 0 0 15px 0;
+    padding-bottom: 8px;
+  }
+  
+  .amenities-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 16px;
+  }
+  
+  .amenity-card {
+    padding: 16px;
+    gap: 12px;
+  }
+  
+  .amenity-icon {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .icon-emoji {
+    font-size: 20px;
+  }
+  
+  .icon-image {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .amenity-name {
+    font-size: 16px;
+  }
+  
+  .amenity-description {
+    font-size: 13px;
+  }
+  
+  .no-amenities {
+    padding: 40px 20px;
+  }
+}
+
+/* Review Components - Mobile First */
 .review-section {
-  margin: 30px 0;
+  margin: 20px 0;
 }
 
 .review-summary {
   display: flex;
-  align-items: center;
-  gap: 20px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
 }
 
 .average-rating {
@@ -618,24 +826,24 @@ body {
 }
 
 .average-rating .rating-number {
-  font-size: 32px;
+  font-size: 28px;
   font-weight: 700;
   color: #ff6b35;
 }
 
 .average-rating .rating-label {
-  font-size: 14px;
+  font-size: 13px;
   color: #666;
 }
 
 .review-count {
-  font-size: 14px;
+  font-size: 13px;
   color: #666;
 }
 
 .rating-breakdown {
-  margin: 20px 0;
-  padding: 20px;
+  margin: 15px 0;
+  padding: 15px;
   background-color: #f9f9f9;
   border-radius: 8px;
 }
@@ -643,21 +851,21 @@ body {
 .rating-bar {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 8px;
+  gap: 8px;
+  margin-bottom: 6px;
 }
 
 .rating-bar .rating-label {
-  width: 40px;
-  font-size: 14px;
+  width: 35px;
+  font-size: 13px;
   color: #333;
 }
 
 .bar-container {
   flex: 1;
-  height: 8px;
+  height: 6px;
   background-color: #e0e0e0;
-  border-radius: 4px;
+  border-radius: 3px;
   overflow: hidden;
 }
 
@@ -668,40 +876,43 @@ body {
 }
 
 .rating-bar .rating-count {
-  width: 30px;
-  font-size: 12px;
+  width: 25px;
+  font-size: 11px;
   color: #666;
   text-align: right;
 }
 
 .review-controls {
   display: flex;
-  gap: 20px;
-  margin: 20px 0;
-  padding: 15px;
+  flex-direction: column;
+  gap: 10px;
+  margin: 15px 0;
+  padding: 12px;
   background-color: #f5f5f5;
   border-radius: 8px;
 }
 
 .control-group {
   display: flex;
-  align-items: center;
-  gap: 8px;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .control-label {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
   color: #333;
 }
 
 .control-select {
-  padding: 6px 12px;
+  padding: 10px 12px;
   border: 1px solid #ddd;
   border-radius: 6px;
-  font-size: 14px;
+  font-size: 16px; /* Prevent zoom on iOS */
   background-color: white;
   cursor: pointer;
+  touch-action: manipulation;
+  min-height: 44px;
 }
 
 .control-select:focus {
@@ -712,13 +923,13 @@ body {
 .reviews-list {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 15px;
 }
 
 .review-card {
   background: white;
   border-radius: 12px;
-  padding: 20px;
+  padding: 15px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   border-left: 4px solid #ff6b35;
 }
@@ -730,38 +941,42 @@ body {
 
 .review-header {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 10px;
   align-items: flex-start;
-  margin-bottom: 15px;
+  margin-bottom: 12px;
 }
 
 .reviewer-info {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
+  width: 100%;
 }
 
 .reviewer-avatar {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid #e0e0e0;
+  flex-shrink: 0;
 }
 
 .reviewer-details {
   flex: 1;
+  min-width: 0;
 }
 
 .reviewer-name {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
   color: #333;
-  margin: 0 0 4px 0;
+  margin: 0 0 2px 0;
 }
 
 .visit-date {
-  font-size: 13px;
+  font-size: 12px;
   color: #666;
   margin: 0;
 }
@@ -769,16 +984,17 @@ body {
 .rating-section {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
+  align-self: flex-end;
 }
 
 .stars {
   display: flex;
-  gap: 2px;
+  gap: 1px;
 }
 
 .star {
-  font-size: 18px;
+  font-size: 16px;
   line-height: 1;
 }
 
@@ -804,17 +1020,17 @@ body {
 }
 
 .rating-number {
-  font-size: 14px;
+  font-size: 13px;
   color: #666;
   font-weight: 500;
 }
 
 .review-content {
-  margin: 15px 0;
+  margin: 12px 0;
 }
 
 .review-comment {
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.5;
   color: #333;
   margin: 0;
@@ -824,13 +1040,15 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 15px;
-  padding-top: 15px;
+  margin-top: 12px;
+  padding-top: 12px;
   border-top: 1px solid #e0e0e0;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .review-date {
-  font-size: 13px;
+  font-size: 12px;
   color: #666;
 }
 
@@ -842,9 +1060,9 @@ body {
 }
 
 .approval-status {
-  font-size: 12px;
-  padding: 4px 8px;
-  border-radius: 12px;
+  font-size: 11px;
+  padding: 3px 6px;
+  border-radius: 10px;
   font-weight: 500;
 }
 
@@ -859,7 +1077,7 @@ body {
 }
 
 .moderation-notes {
-  font-size: 12px;
+  font-size: 11px;
   color: #666;
   margin: 0;
   text-align: right;
@@ -867,7 +1085,7 @@ body {
 
 .no-reviews {
   text-align: center;
-  padding: 40px 20px;
+  padding: 30px 15px;
   color: #666;
 }
 
@@ -875,22 +1093,22 @@ body {
 .review-box {
   background: white;
   border-radius: 8px;
-  padding: 15px;
+  padding: 12px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-bottom: 15px;
+  margin-bottom: 12px;
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 12px;
 }
 
 .review-box h1 {
-  font-size: 24px;
+  font-size: 20px;
   color: #ff6b35;
   margin: 0;
 }
 
 .review-box h2 {
-  font-size: 16px;
+  font-size: 14px;
   color: #333;
   margin: 0;
   flex: 1;
@@ -901,53 +1119,303 @@ body {
   border: 2px solid #e0e0e0;
 }
 
-/* Responsive design for reviews */
-@media (max-width: 768px) {
-  .review-controls {
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .review-header {
-    flex-direction: column;
-    gap: 10px;
-    align-items: flex-start;
-  }
-  
-  .rating-section {
-    align-self: flex-end;
+/* Tablet styles for reviews */
+@media (min-width: 768px) {
+  .review-section {
+    margin: 25px 0;
   }
   
   .review-summary {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .average-rating .rating-number {
+    font-size: 30px;
+  }
+  
+  .average-rating .rating-label {
+    font-size: 14px;
+  }
+  
+  .review-count {
+    font-size: 14px;
   }
   
   .rating-breakdown {
-    padding: 15px;
+    margin: 18px 0;
+    padding: 18px;
+  }
+  
+  .rating-bar {
+    gap: 9px;
+    margin-bottom: 7px;
+  }
+  
+  .rating-bar .rating-label {
+    width: 38px;
+    font-size: 13px;
+  }
+  
+  .bar-container {
+    height: 7px;
+  }
+  
+  .rating-bar .rating-count {
+    width: 28px;
+    font-size: 12px;
+  }
+  
+  .review-controls {
+    flex-direction: row;
+    gap: 15px;
+    padding: 14px;
+  }
+  
+  .control-group {
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .control-label {
+    font-size: 14px;
+  }
+  
+  .reviews-list {
+    gap: 18px;
   }
   
   .review-card {
-    padding: 15px;
+    padding: 18px;
+  }
+  
+  .review-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 14px;
+  }
+  
+  .reviewer-info {
+    gap: 12px;
+    width: auto;
+  }
+  
+  .reviewer-avatar {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .reviewer-name {
+    font-size: 15px;
+    margin: 0 0 3px 0;
+  }
+  
+  .visit-date {
+    font-size: 12px;
+  }
+  
+  .rating-section {
+    gap: 7px;
+    align-self: auto;
+  }
+  
+  .star {
+    font-size: 17px;
+  }
+  
+  .rating-number {
+    font-size: 13px;
+  }
+  
+  .review-content {
+    margin: 14px 0;
+  }
+  
+  .review-comment {
+    font-size: 14px;
+  }
+  
+  .review-footer {
+    margin-top: 14px;
+    padding-top: 14px;
+  }
+  
+  .review-date {
+    font-size: 12px;
+  }
+  
+  .approval-status {
+    font-size: 11px;
+    padding: 3px 7px;
+  }
+  
+  .moderation-notes {
+    font-size: 11px;
+  }
+  
+  .no-reviews {
+    padding: 35px 18px;
+  }
+  
+  .review-box {
+    padding: 14px;
+    gap: 14px;
+  }
+  
+  .review-box h1 {
+    font-size: 22px;
+  }
+  
+  .review-box h2 {
+    font-size: 15px;
   }
 }
 
-/* Search Components */
+/* Desktop styles for reviews */
+@media (min-width: 1024px) {
+  .review-section {
+    margin: 30px 0;
+  }
+  
+  .review-summary {
+    gap: 20px;
+  }
+  
+  .average-rating .rating-number {
+    font-size: 32px;
+  }
+  
+  .rating-breakdown {
+    margin: 20px 0;
+    padding: 20px;
+  }
+  
+  .rating-bar {
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  
+  .rating-bar .rating-label {
+    width: 40px;
+    font-size: 14px;
+  }
+  
+  .bar-container {
+    height: 8px;
+  }
+  
+  .rating-bar .rating-count {
+    width: 30px;
+    font-size: 12px;
+  }
+  
+  .review-controls {
+    gap: 20px;
+    padding: 15px;
+  }
+  
+  .reviews-list {
+    gap: 20px;
+  }
+  
+  .review-card {
+    padding: 20px;
+  }
+  
+  .review-header {
+    margin-bottom: 15px;
+  }
+  
+  .reviewer-avatar {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .reviewer-name {
+    font-size: 16px;
+    margin: 0 0 4px 0;
+  }
+  
+  .visit-date {
+    font-size: 13px;
+  }
+  
+  .rating-section {
+    gap: 8px;
+  }
+  
+  .star {
+    font-size: 18px;
+  }
+  
+  .rating-number {
+    font-size: 14px;
+  }
+  
+  .review-content {
+    margin: 15px 0;
+  }
+  
+  .review-comment {
+    font-size: 15px;
+  }
+  
+  .review-footer {
+    margin-top: 15px;
+    padding-top: 15px;
+  }
+  
+  .review-date {
+    font-size: 13px;
+  }
+  
+  .approval-status {
+    font-size: 12px;
+    padding: 4px 8px;
+  }
+  
+  .moderation-notes {
+    font-size: 12px;
+  }
+  
+  .no-reviews {
+    padding: 40px 20px;
+  }
+  
+  .review-box {
+    padding: 15px;
+    gap: 15px;
+  }
+  
+  .review-box h1 {
+    font-size: 24px;
+  }
+  
+  .review-box h2 {
+    font-size: 16px;
+  }
+}
+
+/* Search Components - Mobile First */
 .search-bar,
 .simple-search-bar {
-  margin: 20px 0;
+  margin: 15px 0;
 }
 
 .search-form {
   display: flex;
-  gap: 12px;
-  align-items: flex-start;
+  flex-direction: column;
+  gap: 8px;
+  align-items: stretch;
 }
 
 .search-inputs {
   display: flex;
-  gap: 12px;
+  flex-direction: column;
+  gap: 8px;
   flex: 1;
 }
 
@@ -957,7 +1425,7 @@ body {
 }
 
 .location-search-group {
-  max-width: 300px;
+  max-width: none;
 }
 
 .input-wrapper {
@@ -971,9 +1439,12 @@ body {
   padding: 12px 16px;
   border: 2px solid #e0e0e0;
   border-radius: 8px;
-  font-size: 16px;
+  font-size: 16px; /* Prevent zoom on iOS */
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
   background-color: white;
+  touch-action: manipulation;
+  min-height: 44px;
+  box-sizing: border-box;
 }
 
 .search-input:focus {
@@ -1007,9 +1478,15 @@ body {
   font-size: 16px;
   color: #666;
   cursor: pointer;
-  padding: 4px;
+  padding: 8px;
   border-radius: 50%;
   transition: background-color 0.2s ease;
+  touch-action: manipulation;
+  min-width: 32px;
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .clear-button:hover {
@@ -1028,8 +1505,11 @@ body {
   transition: background-color 0.2s ease;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   white-space: nowrap;
+  touch-action: manipulation;
+  min-height: 44px;
 }
 
 .search-button:hover:not(:disabled) {
@@ -1077,6 +1557,8 @@ body {
   cursor: pointer;
   transition: background-color 0.2s ease;
   border-bottom: 1px solid #f0f0f0;
+  touch-action: manipulation;
+  min-height: 44px;
 }
 
 .suggestion-item:last-child {
@@ -1107,7 +1589,7 @@ body {
 
 /* Simple Search Bar Styles */
 .simple-search-bar .search-form {
-  max-width: 500px;
+  max-width: none;
 }
 
 .search-input-wrapper {
@@ -1129,7 +1611,8 @@ body {
   position: absolute;
   right: 8px;
   padding: 8px;
-  min-width: auto;
+  min-width: 32px;
+  min-height: 32px;
   background-color: transparent;
   color: #666;
   border-radius: 4px;
@@ -1145,112 +1628,191 @@ body {
   color: #cccccc;
 }
 
-/* Responsive Design for Search */
-@media (max-width: 768px) {
-  .search-form {
-    flex-direction: column;
-    gap: 8px;
-  }
-  
-  .search-inputs {
-    flex-direction: column;
-    gap: 8px;
-  }
-  
-  .location-search-group {
-    max-width: none;
-  }
-  
-  .search-button {
-    align-self: stretch;
-    justify-content: center;
-  }
-  
-  .search-input {
-    font-size: 16px; /* Prevent zoom on iOS */
-  }
-}
-
 /* Search Results */
 .search-results-info {
-  margin: 10px 0 20px 0;
+  margin: 10px 0 15px 0;
 }
 
 .results-header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
 }
 
 .results-count {
-  font-size: 14px;
+  font-size: 13px;
   color: #666;
   margin: 0;
-  padding: 8px 12px;
+  padding: 6px 10px;
   background-color: #f5f5f5;
   border-radius: 6px;
-  flex: 1;
-}
-
-@media (max-width: 768px) {
-  .results-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
-  
-  .results-count {
-    align-self: stretch;
-  }
+  align-self: stretch;
 }
 
 .no-results {
   text-align: center;
-  padding: 60px 20px;
+  padding: 40px 15px;
   color: #666;
   background-color: #fafafa;
   border-radius: 12px;
-  margin: 20px 0;
+  margin: 15px 0;
 }
 
 .no-results h3 {
-  font-size: 20px;
+  font-size: 18px;
   color: #333;
-  margin: 0 0 12px 0;
+  margin: 0 0 10px 0;
 }
 
 .no-results p {
-  font-size: 16px;
+  font-size: 14px;
   line-height: 1.5;
   margin: 0;
-  max-width: 400px;
-  margin-left: auto;
-  margin-right: auto;
+  max-width: 100%;
 }
 
-/* Filter Panel */
+/* Tablet styles for search */
+@media (min-width: 768px) {
+  .search-bar,
+  .simple-search-bar {
+    margin: 18px 0;
+  }
+  
+  .search-form {
+    flex-direction: row;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  
+  .search-inputs {
+    flex-direction: row;
+    gap: 10px;
+  }
+  
+  .location-search-group {
+    max-width: 280px;
+  }
+  
+  .search-button {
+    align-self: auto;
+    justify-content: flex-start;
+  }
+  
+  .simple-search-bar .search-form {
+    max-width: 450px;
+  }
+  
+  .search-results-info {
+    margin: 12px 0 18px 0;
+  }
+  
+  .results-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .results-count {
+    font-size: 14px;
+    padding: 7px 11px;
+    flex: 1;
+  }
+  
+  .no-results {
+    padding: 50px 18px;
+  }
+  
+  .no-results h3 {
+    font-size: 19px;
+    margin: 0 0 11px 0;
+  }
+  
+  .no-results p {
+    font-size: 15px;
+    max-width: 380px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/* Desktop styles for search */
+@media (min-width: 1024px) {
+  .search-bar,
+  .simple-search-bar {
+    margin: 20px 0;
+  }
+  
+  .search-form {
+    gap: 12px;
+  }
+  
+  .search-inputs {
+    gap: 12px;
+  }
+  
+  .location-search-group {
+    max-width: 300px;
+  }
+  
+  .simple-search-bar .search-form {
+    max-width: 500px;
+  }
+  
+  .search-results-info {
+    margin: 10px 0 20px 0;
+  }
+  
+  .results-header {
+    gap: 12px;
+  }
+  
+  .results-count {
+    padding: 8px 12px;
+  }
+  
+  .no-results {
+    padding: 60px 20px;
+    margin: 20px 0;
+  }
+  
+  .no-results h3 {
+    font-size: 20px;
+    margin: 0 0 12px 0;
+  }
+  
+  .no-results p {
+    font-size: 16px;
+    max-width: 400px;
+  }
+}
+
+/* Filter Panel - Mobile First */
 .filter-panel {
   background: white;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  margin: 20px 0;
+  margin: 10px 0;
   transition: all 0.3s ease;
 }
 
 .filter-toggle {
   width: 100%;
-  padding: 16px 20px;
+  padding: 12px 16px;
   background: none;
   border: none;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 500;
   color: #333;
   transition: background-color 0.2s ease;
+  touch-action: manipulation;
+  min-height: 44px;
+  border-radius: 12px 12px 0 0;
 }
 
 .filter-toggle:hover {
@@ -1258,7 +1820,7 @@ body {
 }
 
 .filter-icon {
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .filter-text {
@@ -1269,16 +1831,16 @@ body {
 .filter-count {
   background-color: #4caf50;
   color: white;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
-  padding: 4px 8px;
-  border-radius: 12px;
-  min-width: 20px;
+  padding: 3px 6px;
+  border-radius: 10px;
+  min-width: 18px;
   text-align: center;
 }
 
 .filter-content {
-  padding: 0 20px 20px 20px;
+  padding: 0 16px 16px 16px;
   border-top: 1px solid #e0e0e0;
 }
 
@@ -1290,12 +1852,12 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
-  padding-top: 16px;
+  margin-bottom: 16px;
+  padding-top: 12px;
 }
 
 .filter-header h3 {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
   color: #333;
   margin: 0;
@@ -1305,11 +1867,13 @@ body {
   background: none;
   border: none;
   color: #4caf50;
-  font-size: 14px;
+  font-size: 13px;
   cursor: pointer;
-  padding: 4px 8px;
+  padding: 6px 8px;
   border-radius: 4px;
   transition: background-color 0.2s ease;
+  touch-action: manipulation;
+  min-height: 32px;
 }
 
 .clear-filters:hover {
@@ -1317,8 +1881,8 @@ body {
 }
 
 .filter-section {
-  margin-bottom: 24px;
-  padding-bottom: 20px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
   border-bottom: 1px solid #f0f0f0;
 }
 
@@ -1329,16 +1893,16 @@ body {
 }
 
 .filter-section h4 {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 600;
   color: #333;
-  margin: 0 0 12px 0;
+  margin: 0 0 10px 0;
 }
 
 .filter-options {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .filter-checkbox,
@@ -1347,22 +1911,26 @@ body {
   align-items: center;
   gap: 8px;
   cursor: pointer;
-  padding: 4px 0;
+  padding: 8px 4px;
+  margin: 2px 0;
   transition: background-color 0.2s ease;
+  border-radius: 4px;
+  touch-action: manipulation;
+  min-height: 44px;
 }
 
 .filter-checkbox:hover,
 .filter-radio:hover {
   background-color: #f9f9f9;
-  border-radius: 4px;
-  padding-left: 4px;
-  padding-right: 4px;
 }
 
 .filter-checkbox input[type="checkbox"],
 .filter-radio input[type="radio"] {
-  margin: 0;
+  margin: 0 8px 0 0;
   cursor: pointer;
+  min-width: 20px;
+  min-height: 20px;
+  flex-shrink: 0;
 }
 
 .checkbox-label,
@@ -1371,21 +1939,24 @@ body {
   color: #333;
   cursor: pointer;
   flex: 1;
+  line-height: 1.4;
 }
 
 .show-more {
-  margin-top: 8px;
+  margin-top: 6px;
 }
 
 .show-more-btn {
   background: none;
   border: 1px solid #e0e0e0;
   color: #666;
-  font-size: 13px;
-  padding: 6px 12px;
+  font-size: 12px;
+  padding: 8px 12px;
   border-radius: 6px;
   cursor: pointer;
   transition: all 0.2s ease;
+  touch-action: manipulation;
+  min-height: 36px;
 }
 
 .show-more-btn:hover {
@@ -1394,37 +1965,153 @@ body {
   background-color: #f0f8f0;
 }
 
-/* Responsive Design for Filter Panel */
-@media (max-width: 768px) {
+/* Tablet styles for filter panel */
+@media (min-width: 768px) {
   .filter-panel {
-    margin: 10px 0;
+    margin: 15px 0;
   }
   
   .filter-toggle {
-    padding: 12px 16px;
+    padding: 14px 18px;
     font-size: 15px;
+    gap: 11px;
+  }
+  
+  .filter-icon {
+    font-size: 17px;
+  }
+  
+  .filter-count {
+    font-size: 11px;
+    padding: 3px 7px;
+    min-width: 19px;
   }
   
   .filter-content {
-    padding: 0 16px 16px 16px;
-  }
-  
-  .filter-section {
-    margin-bottom: 20px;
-    padding-bottom: 16px;
+    padding: 0 18px 18px 18px;
   }
   
   .filter-header {
-    margin-bottom: 16px;
-    padding-top: 12px;
+    margin-bottom: 18px;
+    padding-top: 14px;
   }
   
   .filter-header h3 {
-    font-size: 16px;
+    font-size: 17px;
+  }
+  
+  .clear-filters {
+    font-size: 13px;
+    padding: 6px 8px;
+  }
+  
+  .filter-section {
+    margin-bottom: 22px;
+    padding-bottom: 18px;
+  }
+  
+  .filter-section h4 {
+    font-size: 15px;
+    margin: 0 0 11px 0;
+  }
+  
+  .filter-options {
+    gap: 7px;
+  }
+  
+  .filter-checkbox,
+  .filter-radio {
+    padding: 6px 4px;
+  }
+  
+  .show-more-btn {
+    font-size: 12px;
+    padding: 7px 12px;
   }
 }
 
-/* Share Button */
+/* Desktop styles for filter panel */
+@media (min-width: 1024px) {
+  .filter-panel {
+    margin: 20px 0;
+  }
+  
+  .filter-toggle {
+    padding: 16px 20px;
+    font-size: 16px;
+    gap: 12px;
+  }
+  
+  .filter-icon {
+    font-size: 18px;
+  }
+  
+  .filter-count {
+    font-size: 12px;
+    padding: 4px 8px;
+    min-width: 20px;
+  }
+  
+  .filter-content {
+    padding: 0 20px 20px 20px;
+  }
+  
+  .filter-header {
+    margin-bottom: 20px;
+    padding-top: 16px;
+  }
+  
+  .filter-header h3 {
+    font-size: 18px;
+  }
+  
+  .clear-filters {
+    font-size: 14px;
+    padding: 4px 8px;
+  }
+  
+  .filter-section {
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+  }
+  
+  .filter-section h4 {
+    font-size: 16px;
+    margin: 0 0 12px 0;
+  }
+  
+  .filter-options {
+    gap: 8px;
+  }
+  
+  .filter-checkbox,
+  .filter-radio {
+    padding: 4px 0;
+    margin: 0;
+    min-height: auto;
+  }
+  
+  .filter-checkbox:hover,
+  .filter-radio:hover {
+    padding-left: 4px;
+    padding-right: 4px;
+  }
+  
+  .filter-checkbox input[type="checkbox"],
+  .filter-radio input[type="radio"] {
+    margin: 0;
+    min-width: auto;
+    min-height: auto;
+  }
+  
+  .show-more-btn {
+    font-size: 13px;
+    padding: 6px 12px;
+    min-height: auto;
+  }
+}
+
+/* Share Button - Mobile First */
 .share-button-container {
   position: relative;
   display: inline-block;
@@ -1433,15 +2120,17 @@ body {
 .share-button {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 8px 12px;
+  gap: 4px;
+  padding: 8px 10px;
   background-color: #f5f5f5;
   border: 1px solid #e0e0e0;
   border-radius: 6px;
-  font-size: 14px;
+  font-size: 13px;
   color: #666;
   cursor: pointer;
   transition: all 0.2s ease;
+  touch-action: manipulation;
+  min-height: 36px;
 }
 
 .share-button:hover {
@@ -1451,7 +2140,7 @@ body {
 }
 
 .share-icon {
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .share-text {
@@ -1460,14 +2149,14 @@ body {
 
 .share-tooltip {
   position: absolute;
-  top: -35px;
+  top: -32px;
   left: 50%;
   transform: translateX(-50%);
   background-color: #333;
   color: white;
-  padding: 6px 10px;
+  padding: 5px 8px;
   border-radius: 4px;
-  font-size: 12px;
+  font-size: 11px;
   white-space: nowrap;
   z-index: 1000;
 }
@@ -1478,8 +2167,58 @@ body {
   top: 100%;
   left: 50%;
   transform: translateX(-50%);
-  border: 4px solid transparent;
+  border: 3px solid transparent;
   border-top-color: #333;
+}
+
+/* Tablet styles for share button */
+@media (min-width: 768px) {
+  .share-button {
+    gap: 5px;
+    padding: 8px 11px;
+    font-size: 13px;
+    min-height: 38px;
+  }
+  
+  .share-icon {
+    font-size: 13px;
+  }
+  
+  .share-tooltip {
+    top: -33px;
+    padding: 5px 9px;
+    font-size: 11px;
+  }
+  
+  .share-tooltip::after {
+    border: 3px solid transparent;
+    border-top-color: #333;
+  }
+}
+
+/* Desktop styles for share button */
+@media (min-width: 1024px) {
+  .share-button {
+    gap: 6px;
+    padding: 8px 12px;
+    font-size: 14px;
+    min-height: auto;
+  }
+  
+  .share-icon {
+    font-size: 14px;
+  }
+  
+  .share-tooltip {
+    top: -35px;
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+  
+  .share-tooltip::after {
+    border: 4px solid transparent;
+    border-top-color: #333;
+  }
 }
 
 .image {
@@ -1501,47 +2240,466 @@ body {
 .line {
   border: 1px solid grey;
 }
-/* Homepage specific styles */
-.page-subtitle {
-  font-size: 18px;
-  color: #666;
-  margin: 10px 0 30px 0;
+/* Mobile-First Responsive Design */
+
+/* Base styles (mobile-first) */
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 16px; /* Prevent zoom on iOS */
   line-height: 1.5;
-  max-width: 600px;
+}
+
+/* Navigation - Mobile First */
+.nav {
+  position: sticky;
+  z-index: 100;
+  box-shadow: rgb(0 0 0 /12%) 0 6px 16px;
+  padding: 15px 20px;
+  background: white;
+}
+
+.logo {
+  width: 100px;
+  height: 30px;
+  background-image: url('../images/capybara_logo.jpg?v=3');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* Main Layout - Mobile First */
+.main {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.feed-container {
+  width: 100%;
+  background-color: #f8f8f8;
+  padding: 15px;
+  order: 1;
+}
+
+.map {
+  width: 100%;
+  height: 300px;
+  order: 2;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 20px;
+}
+
+.section {
+  margin: 15px 0 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.information {
+  width: 100%;
+}
+
+.price-box {
+  width: 100%;
+  height: auto;
+  min-height: 200px;
+  border: 1px solid rgb(221,221,221);
+  border-radius: 12px;
+  box-shadow: rgb( 0 0 0 / 12%) 0 6px 16px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.button {
+  width: 100%;
+  padding: 15px;
+  border-radius: 10px;
+  color: rgb(255,255,255);
+  text-align: center;
+  background: linear-gradient(135deg, rgb(255,56,92) 20%, rgb(189,30,89));
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+/* Images - Mobile First */
+.images-section {
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  overflow: hidden;
+  max-height: none;
+}
+
+.main-image {
+  width: 100%;
+  overflow: hidden;
+  max-height: 250px;
+}
+
+.main-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.sub-images-section {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px;
+  margin-top: 2px;
+}
+
+.image {
+  width: 100%;
+}
+
+.image img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+}
+
+/* Feed Layout - Mobile First */
+.feed {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+/* Card Components - Mobile First */
+.card {
+  padding: 12px;
+  margin: 0;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background: white;
+  cursor: pointer;
+  width: 100%;
+  max-width: none;
+  touch-action: manipulation;
+}
+
+.card:hover,
+.card:focus {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.card-image {
+  position: relative;
+  width: 100%;
+  height: 180px;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.card:hover .card-image img {
+  transform: scale(1.05);
+}
+
+.placeholder-image {
+  width: 100%;
+  height: 100%;
+  background-color: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-size: 14px;
+}
+
+.card-content {
+  padding: 0 4px 4px 4px;
+}
+
+.card-header {
+  margin-bottom: 8px;
+}
+
+.zoo-name,
+.property-name {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 4px 0;
+  color: #333;
+  line-height: 1.3;
+}
+
+.zoo-type,
+.property-type {
+  font-size: 12px;
+  color: #666;
+  background-color: #f5f5f5;
+  padding: 4px 8px;
+  border-radius: 12px;
+  display: inline-block;
+}
+
+.zoo-stats,
+.property-stats {
+  margin-bottom: 12px;
+}
+
+.animal-info,
+.accommodation-info {
+  font-size: 13px;
+  color: #666;
+  margin: 0;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.review-count {
+  font-size: 13px;
+  color: #666;
+}
+
+.price {
+  font-size: 14px;
+  color: #333;
+}
+
+.price strong {
+  color: #e91e63;
+  font-weight: 600;
+}
+
+/* Homepage specific styles - Mobile First */
+.page-subtitle {
+  font-size: 16px;
+  color: #666;
+  margin: 10px 0 20px 0;
+  line-height: 1.5;
+  max-width: 100%;
 }
 
 .no-results-suggestions {
-  margin-top: 20px;
-  padding: 20px;
+  margin-top: 15px;
+  padding: 15px;
   background-color: #f8f9fa;
   border-radius: 8px;
   border-left: 4px solid #007bff;
 }
 
 .no-results-suggestions h4 {
-  margin: 0 0 15px 0;
+  margin: 0 0 12px 0;
   color: #333;
-  font-size: 16px;
+  font-size: 15px;
 }
 
 .no-results-suggestions ul {
   margin: 0;
-  padding-left: 20px;
+  padding-left: 18px;
 }
 
 .no-results-suggestions li {
-  margin: 8px 0;
+  margin: 6px 0;
   color: #666;
+  font-size: 14px;
 }
 
-/* Responsive adjustments for homepage */
-@media (max-width: 768px) {
+/* Touch-friendly interactions */
+button,
+.button,
+input[type="button"],
+input[type="submit"],
+.card,
+.filter-checkbox,
+.filter-radio {
+  min-height: 44px;
+  touch-action: manipulation;
+}
+
+/* Ensure adequate spacing for touch targets */
+.filter-checkbox,
+.filter-radio {
+  padding: 8px 4px;
+  margin: 2px 0;
+}
+
+.filter-checkbox input[type="checkbox"],
+.filter-radio input[type="radio"] {
+  min-width: 20px;
+  min-height: 20px;
+  margin: 0 8px 0 0;
+}
+
+/* Tablet Styles (768px and up) */
+@media (min-width: 768px) {
+  .nav {
+    padding: 20px 30px;
+  }
+  
+  .logo {
+    width: 120px;
+    height: 36px;
+  }
+  
+  .feed-container {
+    padding: 20px;
+  }
+  
+  .map {
+    height: 400px;
+  }
+  
+  .container {
+    margin: 20px 30px;
+  }
+  
+  .section {
+    margin: 20px 0 0 0;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  
+  .information {
+    width: 60%;
+  }
+  
+  .price-box {
+    width: 35%;
+    height: 250px;
+    margin-top: 0;
+  }
+  
+  .images-section {
+    flex-direction: row;
+    max-height: 340px;
+  }
+  
+  .main-image {
+    width: 50%;
+    max-height: 540px;
+  }
+  
+  .sub-images-section {
+    width: 50%;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 0;
+  }
+  
+  .image img {
+    height: auto;
+    max-height: 270px;
+  }
+  
+  .feed {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  
+  .card {
+    padding: 15px;
+    max-width: 350px;
+  }
+  
+  .card-image {
+    height: 200px;
+  }
+  
   .page-subtitle {
-    font-size: 16px;
-    margin: 10px 0 20px 0;
+    font-size: 18px;
+    margin: 10px 0 30px 0;
+    max-width: 600px;
   }
   
   .no-results-suggestions {
-    padding: 15px;
+    padding: 20px;
+  }
+  
+  .no-results-suggestions h4 {
+    font-size: 16px;
+    margin: 0 0 15px 0;
+  }
+  
+  .no-results-suggestions li {
+    font-size: 15px;
+    margin: 8px 0;
+  }
+}
+
+/* Desktop Styles (1024px and up) */
+@media (min-width: 1024px) {
+  .nav {
+    padding: 30px;
+  }
+  
+  .logo {
+    width: 130px;
+    height: 40px;
+  }
+  
+  .main {
+    flex-direction: row;
+  }
+  
+  .feed-container {
+    width: 50%;
+    height: 100vh;
+    order: 1;
+  }
+  
+  .map {
+    width: 50%;
+    height: 100vh;
+    order: 2;
+  }
+  
+  .container {
+    margin: 20px 50px;
+  }
+  
+  .feed {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  
+  .card {
+    max-width: none;
+  }
+}
+
+/* Large Desktop Styles (1200px and up) */
+@media (min-width: 1200px) {
+  .feed {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  
+  .card {
+    max-width: 300px;
   }
 }

@@ -14,18 +14,25 @@ const Map = ({ location, zooName, address, showDirections = false }) => {
   const [directions, setDirections] = useState(null)
   const [directionsError, setDirectionsError] = useState(null)
 
+  // Detect mobile device
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768)
+    }
+    
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
   // Responsive container style
   const containerStyle = {
     width: "100%",
-    height: "400px",
+    height: isMobile ? "280px" : "400px",
     borderRadius: "8px",
     overflow: "hidden",
-  }
-
-  // Mobile-optimized container style
-  const mobileContainerStyle = {
-    ...containerStyle,
-    height: "300px",
     touchAction: "manipulation", // Improves touch performance
   }
 
@@ -63,23 +70,29 @@ const Map = ({ location, zooName, address, showDirections = false }) => {
   }, [showDirections])
 
   // Zoo-specific marker icon (larger for individual zoo display)
-  const zooMarkerIcon = {
-    url: "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(`
-      <svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="24" cy="24" r="20" fill="#4CAF50" stroke="#2E7D32" stroke-width="3"/>
-        <text x="24" y="30" text-anchor="middle" fill="white" font-family="Arial" font-size="20" font-weight="bold">🐾</text>
-      </svg>
-    `),
-    scaledSize: new window.google.maps.Size(48, 48),
-    anchor: new window.google.maps.Point(24, 24),
-  }
+  const zooMarkerIcon = useMemo(() => {
+    if (!isLoaded || typeof window === 'undefined' || !window.google) {
+      return undefined
+    }
+    
+    return {
+      url: "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(`
+        <svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="24" cy="24" r="20" fill="#4CAF50" stroke="#2E7D32" stroke-width="3"/>
+          <text x="24" y="30" text-anchor="middle" fill="white" font-family="Arial" font-size="20" font-weight="bold">🐾</text>
+        </svg>
+      `),
+      scaledSize: new window.google.maps.Size(48, 48),
+      anchor: new window.google.maps.Point(24, 24),
+    }
+  }, [isLoaded])
 
   const handleMarkerClick = () => {
     setShowInfo(!showInfo)
   }
 
   const handleGetDirections = () => {
-    if (userLocation && location) {
+    if (userLocation && location && isLoaded && window.google) {
       const directionsService = new window.google.maps.DirectionsService()
       
       directionsService.route(
@@ -106,25 +119,39 @@ const Map = ({ location, zooName, address, showDirections = false }) => {
     window.open(url, '_blank')
   }
 
-  // Detect mobile device
-  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768
-
-  const mapOptions = {
-    styles: [
-      {
-        featureType: "poi",
-        elementType: "labels",
-        stylers: [{ visibility: "off" }],
+  const mapOptions = useMemo(() => {
+    if (!isLoaded || typeof window === 'undefined' || !window.google) {
+      return {}
+    }
+    
+    return {
+      styles: [
+        {
+          featureType: "poi",
+          elementType: "labels",
+          stylers: [{ visibility: "off" }],
+        },
+      ],
+      // Mobile-specific optimizations
+      gestureHandling: isMobile ? "cooperative" : "auto",
+      zoomControl: true,
+      zoomControlOptions: {
+        position: isMobile ? window.google.maps.ControlPosition.RIGHT_TOP : window.google.maps.ControlPosition.DEFAULT_POSITION,
       },
-    ],
-    gestureHandling: isMobile ? "cooperative" : "auto",
-    zoomControl: true,
-    mapTypeControl: false,
-    scaleControl: true,
-    streetViewControl: true,
-    rotateControl: false,
-    fullscreenControl: !isMobile,
-  }
+      mapTypeControl: false,
+      scaleControl: !isMobile, // Hide scale on mobile to save space
+      streetViewControl: !isMobile, // Hide street view control on mobile
+      rotateControl: false,
+      fullscreenControl: !isMobile,
+      // Improve performance on mobile
+      disableDefaultUI: isMobile,
+      clickableIcons: false,
+      // Better touch handling
+      draggable: true,
+      scrollwheel: !isMobile, // Disable scroll zoom on mobile to prevent accidental zooming
+      disableDoubleClickZoom: false,
+    }
+  }, [isLoaded, isMobile])
 
   if (!location?.lat || !location?.lng) {
     return (
@@ -145,9 +172,9 @@ const Map = ({ location, zooName, address, showDirections = false }) => {
   return isLoaded ? (
     <div style={{ position: 'relative' }}>
       <GoogleMap
-        mapContainerStyle={isMobile ? mobileContainerStyle : containerStyle}
+        mapContainerStyle={containerStyle}
         center={center}
-        zoom={15}
+        zoom={isMobile ? 14 : 15}
         onLoad={onLoad}
         onUnmount={onUnmount}
         options={mapOptions}
@@ -163,27 +190,50 @@ const Map = ({ location, zooName, address, showDirections = false }) => {
           <InfoWindow
             position={{ lat: location.lat, lng: location.lng }}
             onCloseClick={() => setShowInfo(false)}
+            options={{
+              maxWidth: isMobile ? 250 : 200,
+              pixelOffset: isLoaded && window.google ? new window.google.maps.Size(0, isMobile ? -10 : 0) : undefined,
+            }}
           >
-            <div style={{ maxWidth: '200px', padding: '8px' }}>
-              <h4 style={{ margin: '0 0 8px 0', fontSize: '14px', fontWeight: 'bold' }}>
+            <div style={{ 
+              maxWidth: isMobile ? '230px' : '180px', 
+              padding: isMobile ? '12px' : '8px' 
+            }}>
+              <h4 style={{ 
+                margin: '0 0 8px 0', 
+                fontSize: isMobile ? '16px' : '14px', 
+                fontWeight: 'bold',
+                lineHeight: '1.2'
+              }}>
                 {zooName}
               </h4>
               {address && (
-                <p style={{ margin: '0 0 8px 0', fontSize: '12px', color: '#666' }}>
+                <p style={{ 
+                  margin: '0 0 8px 0', 
+                  fontSize: isMobile ? '13px' : '12px', 
+                  color: '#666',
+                  lineHeight: '1.3'
+                }}>
                   {address}
                 </p>
               )}
-              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+              <div style={{ 
+                display: 'flex', 
+                gap: isMobile ? '10px' : '8px', 
+                flexWrap: 'wrap' 
+              }}>
                 <button
                   onClick={handleOpenInGoogleMaps}
                   style={{
-                    padding: '4px 8px',
+                    padding: isMobile ? '8px 12px' : '4px 8px',
                     backgroundColor: '#4285f4',
                     color: 'white',
                     border: 'none',
                     borderRadius: '4px',
-                    fontSize: '11px',
+                    fontSize: isMobile ? '13px' : '11px',
                     cursor: 'pointer',
+                    touchAction: 'manipulation',
+                    minHeight: isMobile ? '36px' : 'auto',
                   }}
                 >
                   Open in Maps
@@ -192,13 +242,15 @@ const Map = ({ location, zooName, address, showDirections = false }) => {
                   <button
                     onClick={handleGetDirections}
                     style={{
-                      padding: '4px 8px',
+                      padding: isMobile ? '8px 12px' : '4px 8px',
                       backgroundColor: '#34a853',
                       color: 'white',
                       border: 'none',
                       borderRadius: '4px',
-                      fontSize: '11px',
+                      fontSize: isMobile ? '13px' : '11px',
                       cursor: 'pointer',
+                      touchAction: 'manipulation',
+                      minHeight: isMobile ? '36px' : 'auto',
                     }}
                   >
                     Get Directions
@@ -206,7 +258,11 @@ const Map = ({ location, zooName, address, showDirections = false }) => {
                 )}
               </div>
               {directionsError && (
-                <p style={{ margin: '4px 0 0 0', fontSize: '10px', color: '#d93025' }}>
+                <p style={{ 
+                  margin: '4px 0 0 0', 
+                  fontSize: isMobile ? '12px' : '10px', 
+                  color: '#d93025' 
+                }}>
                   {directionsError}
                 </p>
               )}

@@ -85,7 +85,6 @@ const Home = ({ pettingZoos: initialPettingZoos }) => {
     }
   }, [])
 
-  console.log(properties)
   return (
     <>
       <Head>
@@ -95,6 +94,7 @@ const Home = ({ pettingZoos: initialPettingZoos }) => {
         <meta property="og:title" content="Petting Zoo Directory - Find Amazing Petting Zoos Near You" />
         <meta property="og:description" content="Discover the best petting zoos in your area. Meet friendly animals and plan your perfect family visit." />
         <meta property="og:type" content="website" />
+        <html lang="en" />
       </Head>
       {pettingZoos && (
         <div className="main">
