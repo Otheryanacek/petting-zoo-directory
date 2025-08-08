@@ -18,7 +18,7 @@ const PropertyCard = ({ property }) => {
   const reviewCount = reviews?.length || 0
 
   return (
-    <Link href={`/property/${slug.current}`}>
+    <Link href={`/zoo/${slug.current}`}>
       <div className="card property-card" data-testid="property-card">
         <div className="card-image">
           {mainImage ? (

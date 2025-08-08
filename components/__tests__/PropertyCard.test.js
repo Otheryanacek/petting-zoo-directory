@@ -66,7 +66,7 @@ describe('PropertyCard', () => {
     render(<PropertyCard property={mockProperty} />)
     
     const link = screen.getByRole('link')
-    expect(link).toHaveAttribute('href', '/property/test-property')
+    expect(link).toHaveAttribute('href', '/zoo/test-property')
   })
 
   it('handles singular vs plural correctly', () => {
