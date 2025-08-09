@@ -32,27 +32,41 @@
   - Configure performance monitoring for edge environment
   - _Requirements: 2.2, 3.1, 4.1_
 
-- [ ] 4. Migrate client-side Sentry configuration
+- [x] 4. Migrate client-side Sentry configuration
+
+
+
+
+
   - Extract client configuration from `sentry.client.config.js`
   - Implement client-side initialization in instrumentation hook
   - Preserve replay integration settings (session recording)
   - Maintain development mode filtering and error handling
   - _Requirements: 2.2, 3.1, 4.1, 5.1_
 
-- [ ] 5. Update Next.js configuration
+- [x] 5. Update Next.js configuration
+
+
+
+
+
   - Remove deprecated `sentry` property from `next.config.js`
   - Move build options to `sentryBuildOptions` parameter in `withSentryConfig()`
   - Preserve existing webpack plugin options and environment variables
   - Maintain image optimization and other Next.js settings
   - _Requirements: 2.1, 2.3, 1.4_
 
-- [ ] 6. Configure environment variables
+- [x] 6. Configure environment variables
+
+
   - Add missing `NEXT_PUBLIC_SENTRY_DSN` to `.env.local` if needed
   - Document required environment variables for different environments
   - Implement graceful degradation when environment variables are missing
   - _Requirements: 5.2, 5.4, 3.2_
 
-- [ ] 7. Remove legacy configuration files
+- [x] 7. Remove legacy configuration files
+
+
   - Delete `sentry.server.config.js` file
   - Delete `sentry.edge.config.js` file  
   - Delete `sentry.client.config.js` file
