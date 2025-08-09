@@ -17,6 +17,9 @@ const DashboardMap = ({ pettingZoos = [] }) => {
 
   // Detect mobile device and handle resize
   useEffect(() => {
+    // Only run on client side
+    if (typeof window === 'undefined') return
+
     const checkMobile = () => {
       setIsMobile(window.innerWidth <= 768)
     }
@@ -51,13 +54,11 @@ const DashboardMap = ({ pettingZoos = [] }) => {
       }
     }
 
-    // Calculate bounds for multiple locations
-    const bounds = new window.google.maps.LatLngBounds()
-    validLocations.forEach(zoo => {
-      bounds.extend({ lat: zoo.location.lat, lng: zoo.location.lng })
-    })
-
-    return bounds.getCenter().toJSON()
+    // Calculate center manually for multiple locations (avoid using Google Maps API during SSR)
+    const avgLat = validLocations.reduce((sum, zoo) => sum + zoo.location.lat, 0) / validLocations.length
+    const avgLng = validLocations.reduce((sum, zoo) => sum + zoo.location.lng, 0) / validLocations.length
+    
+    return { lat: avgLat, lng: avgLng }
   }, [pettingZoos])
 
   const onLoad = useCallback(function callback(map) {

@@ -21,6 +21,9 @@ const Map = ({ location, zooName, address, showDirections = false }) => {
   const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
+    // Only run on client side
+    if (typeof window === 'undefined') return
+
     const checkMobile = () => {
       setIsMobile(window.innerWidth <= 768)
     }

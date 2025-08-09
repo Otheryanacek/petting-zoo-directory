@@ -8,6 +8,7 @@ import AnimalSection from "../../components/AnimalSection"
 import AmenitiesSection from "../../components/AmenitiesSection"
 import Link from "next/link"
 import Head from "next/head"
+import { useState, useEffect } from "react"
 
 const PettingZoo = ({
   name,
@@ -28,7 +29,12 @@ const PettingZoo = ({
   animals,
   amenities,
 }) => {
+  const [isClient, setIsClient] = useState(false)
   const reviewAmount = reviews?.length || 0
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
 
   return (
     <div className="container">
@@ -143,7 +149,7 @@ const PettingZoo = ({
       <hr />
 
       <h2>Location</h2>
-      <Map location={location}></Map>
+      {isClient && <Map location={location}></Map>}
     </div>
   )
 }
