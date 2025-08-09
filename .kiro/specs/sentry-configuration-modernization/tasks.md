@@ -9,14 +9,24 @@
   - Add proper TypeScript types and error handling
   - _Requirements: 2.1, 2.2, 5.3_
 
-- [ ] 2. Migrate server-side Sentry configuration
+- [x] 2. Migrate server-side Sentry configuration
+
+
+
+
+
   - Extract server configuration from `sentry.server.config.js`
   - Implement server-side initialization in instrumentation hook
   - Add development mode error filtering with `beforeSend` hook
   - Configure performance monitoring with environment-specific sample rates
   - _Requirements: 2.2, 3.1, 4.1, 5.1_
 
-- [ ] 3. Migrate edge runtime Sentry configuration
+- [x] 3. Migrate edge runtime Sentry configuration
+
+
+
+
+
   - Extract edge configuration from `sentry.edge.config.js`
   - Implement edge runtime initialization in instrumentation hook
   - Configure performance monitoring for edge environment
