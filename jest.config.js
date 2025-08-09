@@ -12,21 +12,14 @@ const customJestConfig = {
     // Handle module aliases (this will be automatically configured for you based on your tsconfig.json paths)
     '^@/components/(.*)$': '<rootDir>/components/$1',
     '^@/pages/(.*)$': '<rootDir>/pages/$1',
+    '^@/lib/(.*)$': '<rootDir>/lib/$1',
   },
   testEnvironment: 'jest-environment-jsdom',
   collectCoverageFrom: [
-    'components/**/*.{js,jsx}',
-    'pages/**/*.{js,jsx}',
-    '!pages/_app.js',
-    '!pages/_document.js',
-    '!pages/api/**',
+    'components/**/*.{js,jsx,ts,tsx}',
+    'lib/**/*.{js,jsx,ts,tsx}',
+    'instrumentation.ts',
     '!**/*.d.ts',
-    '!**/node_modules/**',
-  ],
-  testPathIgnorePatterns: [
-    '<rootDir>/.next/',
-    '<rootDir>/node_modules/',
-    '<rootDir>/scripts/',
   ],
 }
 

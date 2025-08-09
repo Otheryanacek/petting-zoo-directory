@@ -12,7 +12,7 @@ jest.mock('next/router', () => ({
       pop: jest.fn(),
       reload: jest.fn(),
       back: jest.fn(),
-      prefetch: jest.fn().mockResolvedValue(undefined),
+      prefetch: jest.fn(),
       beforePopState: jest.fn(),
       events: {
         on: jest.fn(),
@@ -37,3 +37,11 @@ Object.defineProperty(window, 'matchMedia', {
     dispatchEvent: jest.fn(),
   })),
 })
+
+// Mock IntersectionObserver
+global.IntersectionObserver = class IntersectionObserver {
+  constructor() {}
+  disconnect() {}
+  observe() {}
+  unobserve() {}
+}
