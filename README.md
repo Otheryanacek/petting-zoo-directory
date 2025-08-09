@@ -1,6 +1,6 @@
 # Petting Zoo Directory
 
-<!-- Updated for petting zoo directory deployment - Erin Yanacek -->
+<!-- Updated for petting zoo directory deployment -->
 
 This repository is to support my tutorial on how to build an AirBnb Clone with structured content using Sanity.io and Next.js. View the full tutorial [here](https://youtu.be/mx1dbMzd3tU) 📺
 
