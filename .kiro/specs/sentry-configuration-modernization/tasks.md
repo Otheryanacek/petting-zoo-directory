@@ -113,6 +113,7 @@
 
 
 
+
   - Write unit tests for instrumentation hook initialization
   - Create integration tests for error reporting functionality
   - Add tests for environment variable handling and graceful degradation
