@@ -1,10 +1,14 @@
 import { sanityClient } from "../sanity"
-import DashboardMap from "../components/DashboardMap"
+import SafeMap from "../components/SafeMap"
 import PettingZooCard from "../components/PettingZooCard"
 import ErrorBoundary from "../components/ErrorBoundary"
+import ErrorDashboard from "../components/ErrorDashboard"
+import ImageDebugger from "../components/ImageDebugger"
+import SafeImageTest from "../components/SafeImageTest"
 import Head from "next/head"
 import { useState, useEffect } from "react"
 import { validateAndSanitizeData } from "../utils/validation"
+import { addTestDataToZoos } from "../utils/testData"
 
 const Home = ({ pettingZoos: initialPettingZoos, error, warnings, fallbackMode }) => {
   const [isClient, setIsClient] = useState(false)
@@ -12,6 +16,11 @@ const Home = ({ pettingZoos: initialPettingZoos, error, warnings, fallbackMode }
   useEffect(() => {
     setIsClient(true)
   }, [])
+
+  // Add test data in development mode
+  const displayZoos = process.env.NODE_ENV === 'development' 
+    ? addTestDataToZoos(initialPettingZoos)
+    : initialPettingZoos
 
   console.log('Home component received:', { 
     pettingZoos: initialPettingZoos, 
@@ -47,7 +56,7 @@ const Home = ({ pettingZoos: initialPettingZoos, error, warnings, fallbackMode }
   }
 
   // Handle empty data with fallback message
-  if (!initialPettingZoos || !Array.isArray(initialPettingZoos) || initialPettingZoos.length === 0) {
+  if (!displayZoos || !Array.isArray(displayZoos) || displayZoos.length === 0) {
     return (
       <div className="main">
         <div className="feed-container">
@@ -82,7 +91,13 @@ const Home = ({ pettingZoos: initialPettingZoos, error, warnings, fallbackMode }
       <div className="main">
         <div className="feed-container">
           <h1>Discover Amazing Petting Zoos</h1>
-          <p>Found {initialPettingZoos.length} petting zoos</p>
+          <p>Found {displayZoos.length} petting zoos 
+            {process.env.NODE_ENV === 'development' && (
+              <span style={{ fontSize: '12px', color: '#666' }}>
+                (includes {displayZoos.length - initialPettingZoos.length} test entries)
+              </span>
+            )}
+          </p>
           
           {fallbackMode && (
             <div className="fallback-notice">
@@ -103,19 +118,38 @@ const Home = ({ pettingZoos: initialPettingZoos, error, warnings, fallbackMode }
             </div>
           )}
 
+          {/* SafeImage Test Component - Development Only */}
+          <SafeImageTest />
+
+          {/* Image Validation Debugger - Development Only */}
+          <ImageDebugger 
+            images={displayZoos.map(zoo => zoo.mainImage)}
+            title="Main Images Validation (Including Test Data)"
+          />
+
           <div className="feed">
-            {initialPettingZoos.map((zoo) => (
+            {displayZoos.map((zoo) => (
               <PettingZooCard key={zoo._id} zoo={zoo} />
             ))}
           </div>
         </div>
         <div className="map">
           {isClient && (
-            <ErrorBoundary>
-              <DashboardMap pettingZoos={initialPettingZoos} />
-            </ErrorBoundary>
+            <SafeMap 
+              pettingZoos={displayZoos}
+              showErrorDetails={process.env.NODE_ENV === 'development'}
+              retryAttempts={3}
+              retryDelay={2000}
+              onError={(error) => {
+                console.error('Map error:', error)
+                // Could send to error tracking service here
+              }}
+            />
           )}
         </div>
+        
+        {/* Error Dashboard - Development Only */}
+        <ErrorDashboard />
       </div>
     </>
   )

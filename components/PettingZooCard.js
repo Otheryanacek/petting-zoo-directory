@@ -1,5 +1,5 @@
-import Link from "next/link"
-import { urlFor } from "../sanity"
+import SafeLink from "./SafeLink"
+import SafeImage from "./SafeImage"
 import { isMultiple } from "../utils"
 
 const PettingZooCard = ({ zoo }) => {
@@ -30,34 +30,31 @@ const PettingZooCard = ({ zoo }) => {
   const reviewCount = reviews?.length || 0
   const linkPath = itemType === 'pettingZoo' ? 'zoo' : 'property'
 
-  // Safety check for slug
-  if (!slug || !slug.current) {
-    console.error('PettingZooCard: Invalid slug data', { slug, zoo: zoo.name || zoo.title })
-    return (
-      <div className="card petting-zoo-card error-card" data-testid="petting-zoo-card">
-        <div className="card-content">
-          <h3>Error: Invalid zoo data</h3>
-          <p>This zoo entry has missing or invalid slug information.</p>
-        </div>
-      </div>
-    )
-  }
-
   return (
-    <Link href={`/${linkPath}/${slug.current}`}>
+    <SafeLink 
+      slug={slug}
+      basePath={`/${linkPath}`}
+      className="card-link"
+      fallbackComponent={() => (
+        <div className="card petting-zoo-card error-card" data-testid="petting-zoo-card">
+          <div className="card-content">
+            <h3>Zoo Information Unavailable</h3>
+            <p>This zoo entry has missing link information.</p>
+          </div>
+        </div>
+      )}
+    >
       <div className="card petting-zoo-card" data-testid="petting-zoo-card">
         <div className="card-image">
-          {mainImage ? (
-            <img 
-              src={urlFor(mainImage).width(400).height(250).crop("fill").auto("format")} 
-              alt={`${displayName} - petting zoo`}
-              loading="lazy"
-            />
-          ) : (
-            <div className="placeholder-image">
-              <span>No Image Available</span>
-            </div>
-          )}
+          <SafeImage 
+            image={mainImage}
+            width={400}
+            height={250}
+            alt={`${displayName} - petting zoo`}
+            fallbackText="Zoo image not available"
+            fallbackIcon="🏞️"
+            style={{ borderRadius: '8px 8px 0 0' }}
+          />
         </div>
         
         <div className="card-content">
@@ -95,7 +92,7 @@ const PettingZooCard = ({ zoo }) => {
           </div>
         </div>
       </div>
-    </Link>
+    </SafeLink>
   )
 }
 
