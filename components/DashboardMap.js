@@ -1,15 +1,36 @@
 import React, { useState, useCallback, useMemo, useEffect } from "react"
 import { GoogleMap, useJsApiLoader, Marker, InfoWindow, MarkerClusterer } from "@react-google-maps/api"
+import { urlFor } from "../sanity"
 
 // Static libraries array to prevent reloading
 const libraries = ["places"]
 
 const DashboardMap = ({ pettingZoos = [] }) => {
-  const { isLoaded } = useJsApiLoader({
+  console.log('DashboardMap received pettingZoos:', pettingZoos)
+  
+  const { isLoaded, loadError } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
     libraries,
   })
+
+  // Handle load errors
+  if (loadError) {
+    console.error('Google Maps failed to load:', loadError)
+    return (
+      <div style={{
+        width: '100%',
+        height: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#f5f5f5',
+        color: '#d93025'
+      }}>
+        Failed to load map. Please check your internet connection.
+      </div>
+    )
+  }
 
   const [selectedZoo, setSelectedZoo] = useState(null)
   const [map, setMap] = useState(null)
@@ -234,14 +255,18 @@ const DashboardMap = ({ pettingZoos = [] }) => {
             </h3>
             {selectedZoo.mainImage && (
               <img
-                src={selectedZoo.mainImage}
-                alt={selectedZoo.name}
+                src={urlFor(selectedZoo.mainImage).width(280).height(140).crop("fill").auto("format")}
+                alt={selectedZoo.name || 'Petting zoo'}
                 style={{
                   width: '100%',
                   height: isMobile ? '140px' : '120px',
                   objectFit: 'cover',
                   borderRadius: '4px',
                   marginBottom: '8px',
+                }}
+                onError={(e) => {
+                  console.error('Image failed to load:', selectedZoo.mainImage)
+                  e.target.style.display = 'none'
                 }}
               />
             )}
