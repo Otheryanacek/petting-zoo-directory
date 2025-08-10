@@ -75,8 +75,8 @@ export const getServerSideProps = async () => {
   try {
     console.log('Fetching petting zoo data...')
 
-    // Simplified query to avoid reference issues
-    const pettingZooQuery = `*[ _type == "pettingZoo"] | order(name asc) {
+    // Enhanced query with proper slug handling and validation
+    const pettingZooQuery = `*[ _type == "pettingZoo" && defined(slug.current)] | order(name asc) {
       _id,
       name,
       slug,
@@ -101,9 +101,20 @@ export const getServerSideProps = async () => {
     const pettingZoos = await sanityClient.fetch(pettingZooQuery)
     console.log(`Found ${pettingZoos.length} petting zoos`)
 
+    // Validate and filter out any invalid entries
+    const validPettingZoos = pettingZoos.filter(zoo => {
+      if (!zoo || !zoo.slug || !zoo.slug.current) {
+        console.warn('Filtering out zoo with invalid slug:', zoo?.name || 'Unknown')
+        return false
+      }
+      return true
+    })
+
+    console.log(`After validation: ${validPettingZoos.length} valid petting zoos`)
+
     return {
       props: {
-        pettingZoos: pettingZoos || [],
+        pettingZoos: validPettingZoos || [],
       },
     }
   } catch (error) {

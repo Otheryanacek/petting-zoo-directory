@@ -8,6 +8,24 @@ const libraries = ["places"]
 const DashboardMap = ({ pettingZoos = [] }) => {
   console.log('DashboardMap received pettingZoos:', pettingZoos)
   
+  // Safety check for pettingZoos data
+  if (!Array.isArray(pettingZoos)) {
+    console.error('DashboardMap: pettingZoos is not an array', pettingZoos)
+    return (
+      <div style={{
+        width: '100%',
+        height: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#f5f5f5',
+        color: '#d93025'
+      }}>
+        Error: Invalid zoo data format
+      </div>
+    )
+  }
+  
   const { isLoaded, loadError } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
@@ -303,26 +321,28 @@ const DashboardMap = ({ pettingZoos = [] }) => {
                 Adult: ${selectedZoo.admissionPrice.adult} | Child: ${selectedZoo.admissionPrice.child}
               </p>
             )}
-            <a
-              href={`/zoo/${selectedZoo.slug?.current || selectedZoo.slug}`}
-              style={{
-                display: 'inline-block',
-                padding: isMobile ? '10px 16px' : '6px 12px',
-                backgroundColor: '#4CAF50',
-                color: 'white',
-                textDecoration: 'none',
-                borderRadius: '4px',
-                fontSize: isMobile ? '14px' : '12px',
-                fontWeight: 'bold',
-                touchAction: 'manipulation',
-                minHeight: isMobile ? '44px' : 'auto',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              View Details
-            </a>
+            {selectedZoo.slug?.current && (
+              <a
+                href={`/zoo/${selectedZoo.slug.current}`}
+                style={{
+                  display: 'inline-block',
+                  padding: isMobile ? '10px 16px' : '6px 12px',
+                  backgroundColor: '#4CAF50',
+                  color: 'white',
+                  textDecoration: 'none',
+                  borderRadius: '4px',
+                  fontSize: isMobile ? '14px' : '12px',
+                  fontWeight: 'bold',
+                  touchAction: 'manipulation',
+                  minHeight: isMobile ? '44px' : 'auto',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                View Details
+              </a>
+            )}
           </div>
         </InfoWindow>
       )}

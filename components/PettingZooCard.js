@@ -3,6 +3,12 @@ import { urlFor } from "../sanity"
 import { isMultiple } from "../utils"
 
 const PettingZooCard = ({ zoo }) => {
+  // Add safety check for zoo data
+  if (!zoo) {
+    console.error('PettingZooCard received null/undefined zoo data')
+    return null
+  }
+
   const {
     _id,
     slug,
@@ -23,6 +29,19 @@ const PettingZooCard = ({ zoo }) => {
   const displayPrice = admissionPrice?.adult || pricePerNight
   const reviewCount = reviews?.length || 0
   const linkPath = itemType === 'pettingZoo' ? 'zoo' : 'property'
+
+  // Safety check for slug
+  if (!slug || !slug.current) {
+    console.error('PettingZooCard: Invalid slug data', { slug, zoo: zoo.name || zoo.title })
+    return (
+      <div className="card petting-zoo-card error-card" data-testid="petting-zoo-card">
+        <div className="card-content">
+          <h3>Error: Invalid zoo data</h3>
+          <p>This zoo entry has missing or invalid slug information.</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <Link href={`/${linkPath}/${slug.current}`}>
