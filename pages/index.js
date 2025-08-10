@@ -1,6 +1,7 @@
 import { sanityClient } from "../sanity"
 import DashboardMap from "../components/DashboardMap"
 import PettingZooCard from "../components/PettingZooCard"
+import ErrorBoundary from "../components/ErrorBoundary"
 import Head from "next/head"
 import { useState, useEffect } from "react"
 
@@ -12,6 +13,19 @@ const Home = ({ pettingZoos: initialPettingZoos, error }) => {
   }, [])
 
   console.log('Home component received:', { pettingZoos: initialPettingZoos, error })
+
+  // Add safety check for pettingZoos data
+  if (!initialPettingZoos || !Array.isArray(initialPettingZoos)) {
+    console.error('Invalid pettingZoos data:', initialPettingZoos)
+    return (
+      <div className="main">
+        <div className="feed-container">
+          <h1>Discover Amazing Petting Zoos</h1>
+          <p>Loading petting zoo data...</p>
+        </div>
+      </div>
+    )
+  }
 
   if (error) {
     return <div>Error: {error}</div>
@@ -46,7 +60,11 @@ const Home = ({ pettingZoos: initialPettingZoos, error }) => {
           </div>
         </div>
         <div className="map">
-          {isClient && <DashboardMap pettingZoos={initialPettingZoos} />}
+          {isClient && (
+            <ErrorBoundary>
+              <DashboardMap pettingZoos={initialPettingZoos} />
+            </ErrorBoundary>
+          )}
         </div>
       </div>
     </>

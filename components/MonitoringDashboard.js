@@ -10,7 +10,17 @@ const MonitoringDashboard = () => {
   useEffect(() => {
     // Only show in development or for admin users
     const isDev = process.env.NODE_ENV === 'development';
-    const isAdmin = localStorage.getItem('isAdmin') === 'true';
+    
+    // Safely access localStorage only on client side
+    let isAdmin = false;
+    if (typeof window !== 'undefined' && window.localStorage) {
+      try {
+        isAdmin = localStorage.getItem('isAdmin') === 'true';
+      } catch (error) {
+        console.warn('Could not access localStorage:', error);
+      }
+    }
+    
     setIsVisible(isDev || isAdmin);
   }, []);
 
