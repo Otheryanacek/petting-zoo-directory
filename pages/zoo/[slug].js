@@ -149,7 +149,7 @@ const PettingZoo = ({
       <hr />
 
       <h2>Location</h2>
-      {isClient && <Map location={location}></Map>}
+      {isClient && <Map location={location} zooName={name} address={address}></Map>}
     </div>
   )
 }

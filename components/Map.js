@@ -1,15 +1,39 @@
-import React, { useState, useCallback, useEffect } from "react"
+import React, { useState, useCallback, useEffect, useMemo } from "react"
 import { GoogleMap, useJsApiLoader, Marker, InfoWindow, DirectionsService, DirectionsRenderer } from "@react-google-maps/api"
 
 // Static libraries array to prevent reloading
 const libraries = ["places"]
 
 const Map = ({ location, zooName, address, showDirections = false }) => {
-  const { isLoaded } = useJsApiLoader({
+  // Debug logging
+  console.log('Map component received:', { location, zooName, address })
+  console.log('Google Maps API Key exists:', !!process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY)
+  
+  const { isLoaded, loadError } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
     libraries,
   })
+
+  // Handle load errors
+  if (loadError) {
+    console.error('Google Maps failed to load:', loadError)
+    return (
+      <div style={{
+        width: "100%",
+        height: "400px",
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#f5f5f5',
+        color: '#d93025',
+        border: '1px solid #ddd',
+        borderRadius: "8px",
+      }}>
+        Failed to load Google Maps. Please check your API key.
+      </div>
+    )
+  }
 
   const [map, setMap] = useState(null)
   const [showInfo, setShowInfo] = useState(false)
@@ -43,9 +67,12 @@ const Map = ({ location, zooName, address, showDirections = false }) => {
   }
 
   const center = {
-    lat: location?.lat || 0,
-    lng: location?.lng || 0,
+    lat: location.lat,
+    lng: location.lng,
   }
+
+  // Debug: Log the final center coordinates
+  console.log('Map center coordinates:', center)
 
   const onLoad = useCallback(function callback(map) {
     // Don't auto-fit bounds for single location, just center on the zoo
@@ -159,7 +186,13 @@ const Map = ({ location, zooName, address, showDirections = false }) => {
     }
   }, [isLoaded, isMobile])
 
-  if (!location?.lat || !location?.lng) {
+  // Check if we have valid location data
+  const hasValidLocation = location?.lat && location?.lng && 
+    typeof location.lat === 'number' && typeof location.lng === 'number' &&
+    location.lat !== 0 && location.lng !== 0
+
+  if (!hasValidLocation) {
+    console.warn('Invalid or missing location data:', location)
     return (
       <div style={{
         ...containerStyle,
@@ -169,8 +202,11 @@ const Map = ({ location, zooName, address, showDirections = false }) => {
         backgroundColor: '#f5f5f5',
         color: '#666',
         border: '1px solid #ddd',
+        flexDirection: 'column',
+        gap: '8px'
       }}>
-        Location information not available
+        <div>📍 Location information not available</div>
+        {address && <div style={{ fontSize: '14px', color: '#888' }}>{address}</div>}
       </div>
     )
   }
